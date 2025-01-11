@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SAI| Connection</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/tailwind.css" />
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.min.js" defer></script>
+  </head>
+  <body>
+    <div x-data="setup()" x-init="$refs.loading.classList.add('hidden'); setColors(color);" :class="{ 'dark': isDark}">
+      <!-- Loading screen -->
+      <div
+        x-ref="loading"
+        class="fixed inset-0 z-50 flex items-center justify-center text-2xl font-semibold text-white bg-primary-darker"
+      >
+      Loading.....
+      </div>
+      <div
+        class="flex flex-col items-center justify-center min-h-screen p-4 space-y-4 antialiased text-gray-900 bg-gray-100 dark:bg-dark dark:text-light" >
+        <!-- Brand -->
+         <div class="image-section1">
+          <img  class="img-fluid rounded-image" src="../images/logo3.png" alt="user-header">
+         </div>
+        <div
+          class=" inline-block mb-4 text-3xl font-bold tracking-wider uppercase text-primary-dark dark:text-light"
+        >
+  
+          SMART AUTOMATIC IRRIGATION
+        </div>
+        <main>
+         <div class="container">
+            <div class="image-section">
+              <img src="../images/AFFICHE.png" alt="Image de connexion">
+            </div>
+            <div class="w-full max-w-sm px-4 py-6 space-y-6 bg-white rounded-md dark:bg-darker">
+              <h1 class="mb-6 text-xl font-semibold text-center col-12 col-md font-bold">CONNECTION</h1>
+              <form action="https://Your_IP_Adresse:3000/sai/connexions" method="POST" class="space-y-6">
+                <input
+                  class="mb-6 text-xl font-semibold  col-12 col-md font-bold w-full px-4 py-2 border rounded-md dark:bg-darker dark:border-gray-700 focus:outline-none focus:ring focus:ring-primary-100 dark:focus:ring-primary-darker"
+                  type="text"
+                  name="id"
+                  id="id"
+                  placeholder="ID"
+                  
+                />
+                
+                <input
+                  class="mb-6 text-xl font-semibold  col-12 col-md font-bold  w-full px-4 py-2 border rounded-md dark:bg-darker focus:outline-none focus:ring focus:ring-primary-100 "
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Mot de passe"
+                  
+                />
+                
+                <div>
+                  <button
+                    type="submit"
+                    class="mb-6 text-xl font-semibold text-center col-12 col-md font-bold   w-full px-4 py-2 font-medium text-center text-white transition-colors duration-200 rounded-md bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1 dark:focus:ring-offset-darker"
+                  >
+                    Connection
+                   
+                  </button>
+                </div>
+            </form>
+          
+      
+            <!-- Register link -->
+            <div class="mb-6 text-xl font-semibold text-center col-12 col-md font-bold">
+              Don't have an account yet? <a href="https://Your_IP_Adresse:3000/sai/register" class="text-blue-600 hover:underline">Inscription</a>
+            </div>
+          </div>
+        </div>
+        </main>
+      </div>
+     
+  <!-- Main footer -->
+  <footer >
+    <div class="col-12 col-md text-xl font-semibold text-center font-bold">SAI &copy; 2024    IoT - Blockchain Irrigation</div>
+  </footer>
+    </div>
+    
+    <script>
+      const setup = () => {
+        const getTheme = () => {
+          if (window.localStorage.getItem('dark')) {
+            return JSON.parse(window.localStorage.getItem('dark'))
+          }
+          return !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        }
+
+        const setTheme = (value) => {
+          window.localStorage.setItem('dark', value)
+        }
+
+        const getColor = () => {
+          if (window.localStorage.getItem('color')) {
+            return window.localStorage.getItem('color')
+          }
+          return 'cyan'
+        }
+
+        const setColors = (color) => {
+          const root = document.documentElement
+          root.style.setProperty('--color-primary', `var(--color-green)`)
+          root.style.setProperty('--color-primary-50', `var(--color-green-50)`)
+          root.style.setProperty('--color-primary-100', `var(--color-green-100)`)
+          root.style.setProperty('--color-primary-light', `var(--color-green-light)`)
+          root.style.setProperty('--color-primary-lighter', `var(--color-green-lighter)`)
+          root.style.setProperty('--color-primary-dark', `var(--color-green-dark)`)
+          root.style.setProperty('--color-primary-darker', `var(--color-green-darker)`)
+          window.localStorage.setItem('color', color)
+        }
+
+        return {
+          loading: true,
+          isDark: getTheme(),
+          color: getColor(),
+          toggleTheme() {
+            this.isDark = !this.isDark
+            setTheme(this.isDark)
+          },
+          setColors,
+        }
+      }
+    
+    
+        
+      
+       function mettreAJourValeurs() {
+            // Making a GET request to the Node.js Expres server
+          const password=document.getElementById('password').value
+         fetch('https://Your_IP_Adresse:3000/sai/connexion')
+          .then(response => response.json())
+          .then(datax => {
+            
+            // Display the response in the console
+            console.log('Data received from the server:', datax);
+            var jso = JSON.parse(datax);
+            // Retrieve the ID and PWD values
+            var IDP = jso.ID_p;
+            var PWDP = jso.PWD_p;
+
+            console.log(IDP);
+            console.log(PWDP);
+
+            // Compare password values
+            if (password !== PWDP) {
+           
+            } else {
+              window.location.href = 'https://Your_IP_Adresse:3000/sai/culture'; // Redirects to the login page
+            }
+
+            
+          })
+          .catch(error => {
+            console.error('Erreur lors de la récupération des données:', error);
+          });
+    }
+    
+       
+setInterval(mettreAJourValeurs, 15000);
+  
+    </script>
+  </body>
+</html>
